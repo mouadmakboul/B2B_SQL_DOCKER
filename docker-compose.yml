@@ -1,0 +1,26 @@
+services:
+  db:
+    image: mysql:latest
+    ports:
+      - "3307:3306"  # Utilisez un autre port, par exemple, 3307
+    environment:
+      - MYSQL_DATABASE=b2b
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    networks:
+      - mynetwork
+
+  app:
+    image: depuissql:0.0.1
+    ports:
+      - "1000:1000"
+    environment:
+      - spring.datasource.url=jdbc:mysql://db:3306/b2b?createDatabaseIfNotExist=true&useSSL=false
+      - spring.datasource.username=root
+      - spring.datasource.password=
+    depends_on:
+      - db
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
